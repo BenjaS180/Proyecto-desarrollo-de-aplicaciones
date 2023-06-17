@@ -30,3 +30,15 @@ class DAO():
               print("Error al intentar la conexion: {}".format(ex))
 
 
+    def listar_productos(self):
+        if self.conexion.is_connected():
+
+            try:
+                cursor = self.conexion.cursor()
+                cursor.execute("select * from productos;")
+                resultados = cursor.fetchall()
+                return resultados
+
+            except  Error as ex:
+              print("Error al intentar la conexion: {}".format(ex))
+

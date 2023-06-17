@@ -3,159 +3,111 @@ from LD.conexion import DAO
 dao = DAO()
 
 
-class Bodega:
+class Producto:
     # Creamos el constructor con parametros
-    def __init__(self, id_bodega, nombre, direccion, jefe_asignado, capacidad, niveldeocupacion, correobodega,
-                 numerofijo):
-        self.__id_bodega = id_bodega
-        self.__nombre = nombre
-        self.__direccion = direccion
-        self.__jefe_asignado = jefe_asignado
-        self.__capacidad = capacidad
-        self.__niveldeocupacion = niveldeocupacion
-        self.__correobodega = correobodega
-        self.__numerofijo = numerofijo
+    def __init__(self, id_producto, id_editorial, fechaing, cantidades, tipoproducto):
+        self.__id_producto = id_producto
+        self.__id_editorial = id_editorial
+        self.__fechaing = fechaing
+        self.__cantidades = cantidades
+        self.__tipoproducto = tipoproducto
 
     # Creamos metodos selectores
-    def getid_bodega(self):
-        return self.__id_bodega
+    def getid_producto(self):
+        return self.__id_producto
 
-    def getnombre(self):
-        return self.__nombre
+    def getid_editorial(self):
+        return self.__id_editorial
 
-    def getdireccion(self):
-        return self.__direccion
+    def getfechaing(self):
+        return self.__fechaing
 
-    def getjefe_asignado(self):
-        return self.__jefe_asignado
+    def getcantidades(self):
+        return self.__cantidades
 
-    def getcapacidad(self):
-        return self.__capacidad
-
-    def getniveldeocupacion(self):
-        return self.__niveldeocupacion
-
-    def getcorreobodega(self):
-        return self.__correobodega
-
-    def getnumerofijo(self):
-        return self.__numerofijo
+    def gettipoproducto(self):
+        return self.__tipoproducto
 
     # Creamos metodos mutadores
-    def setid_bodega(self, id_bodega):
-        self.__id_bodega = id_bodega
+    def setid_producto(self, id_producto):
+        self.__id_producto = id_producto
 
-    def setnombre(self, nombre):
-        self.__nombre = nombre
+    def setid_editorial(self, id_editorial):
+        self.__id_editorial = id_editorial
 
-    def setdireccion(self, direccion):
-        self.__direccion = direccion
+    def setfechaing(self, fechaing):
+        self.__fechaing = fechaing
 
-    def setjefe_asignado(self, jefe_asignado):
-        self.__jefe_asignado = jefe_asignado
-
-    def setcapacidad(self, capacidad):
-        self.__capacidad = capacidad
-
-    def setniveldeocupacion(self, niveldeocupacion):
-        self.__niveldeocupacion = niveldeocupacion
-
-    def setcorreobodega(self, correobodega):
-        self.__correobodega = correobodega
-
-    def setnumerofijo(self, numerofijo):
-        self.__numerofijo = numerofijo
+    def setcantidades(self, cantidades):
+        self.__cantidades = cantidades
+    def settipoproducto(self, tipoproducto):
+        self.__tipoproducto = tipoproducto
 
     # Creamos metodos eliminadores
-    def delid_bodega(self):
-        del self.__id_bodega
+    def delid_producto(self):
+        del self.__id_producto
 
-    def delnombre(self):
-        del self.__nombre
+    def delid_editorial(self):
+        del self.__id_editorial
 
-    def deldireccion(self):
-        del self.__direccion
+    def delfechaing(self):
+        del self.__fechaing
 
-    def deljefe_asignado(self):
-        del self.__jefe_asignado
+    def delcantidades(self):
+        del self.__cantidades
 
-    def delcapacidad(self):
-        del self.__capacidad
+    def deltipoproducto(self):
+        del self.__tipoproducto
 
-    def delniveldeocupacion(self):
-        del self.__niveldeocupacion
-
-    def delcorreobodega(self):
-        del self.__correobodega
-
-    def delnumerofijo(self):
-        del self.__numerofijo
 
     # Creamos propiedades de atributos
 
-    Idbodega = property(fget=getid_bodega,
-                        fset=setid_bodega,
-                        fdel=delid_bodega,
-                        doc="Soy la propiedad de la bodega")
+    Idproducto = property(fget=getid_producto,
+                          fset=setid_producto,
+                          fdel=delid_producto,
+                          doc="Soy la propiedad de la bodega")
 
-    Nombre = property(fget=getnombre,
-                      fset=setnombre,
-                      fdel=delnombre,
-                      doc="Soy la propiedad del nombre")
+    Id_editorial = property(fget=getid_editorial,
+                            fset=setid_editorial,
+                            fdel=delid_editorial,
+                            doc="Soy la propiedad del id_editorial")
 
-    Direccion = property(fget=getdireccion,
-                         fset=setdireccion,
-                         fdel=deldireccion,
-                         doc='Soy la propiedad de la direccion')
+    Fechaing = property(fget=getfechaing,
+                        fset=setfechaing,
+                        fdel=delfechaing,
+                        doc='Soy la propiedad de la direccion')
 
-    Jefeasignado = property(fget=getjefe_asignado,
-                            fset=setjefe_asignado,
-                            fdel=deljefe_asignado,
-                            doc='Soy la propiedad del contacto')
+    Cantidades = property(fget=getcantidades,
+                          fset=setcantidades,
+                          fdel=delcantidades,
+                          doc='Soy la propiedad del contacto')
 
-    Capacidad = property(fget=getcapacidad,
-                         fset=setcapacidad,
-                         fdel=delcapacidad,
+    Tipoproducto = property(fget=gettipoproducto,
+                         fset=settipoproducto,
+                         fdel=deltipoproducto,
                          doc='Soy la propiedad de la Capacidad')
-
-    Niveldeocupacion = property(fget=getniveldeocupacion,
-                                fset=setniveldeocupacion,
-                                fdel=delniveldeocupacion,
-                                doc='Soy la propiedad del niveldeocupacion')
-
-    Correobodega = property(fget=getcorreobodega,
-                            fset=setcorreobodega,
-                            fdel=delcorreobodega,
-                            doc='Soy la propiedad del Email')
-
-    Numerofijo = property(fget=getnumerofijo,
-                          fset=setnumerofijo,
-                          fdel=delnumerofijo,
-                          doc='Soy la propiedad del numerofijo')
 
     # Creamos las operaciones del objeto.
 
 
-def obtener_bodegas():
-    resultados = dao.listar_bodegas()
-    bodegas = convertir_a_bodegas(resultados)
-    return bodegas
+def obtener_productos():
+    resultados = dao.listar_productos()
+    productos = convertir_a_productos(resultados)
+    return productos
 
 
-def convertir_a_bodegas(resultados):
-    bodegas = []
+def convertir_a_productos(resultados):
+    productos = []
 
     for datos in resultados:
-        bodega = Bodega(
-            id_bodega=datos[0],
-            nombre=datos[1],
-            direccion=datos[2],
-            jefe_asignado=datos[3],
-            capacidad=datos[4],
-            niveldeocupacion=datos[5],
-            correobodega=datos[6],
-            numerofijo=datos[7]
+        producto = Producto(
+            id_producto=datos[0],
+            id_editorial=datos[1],
+            fechaing=datos[2],
+            cantidades=datos[3],
+            tipoproducto=datos[4]
         )
-        bodegas.append(bodega)
+        productos.append(producto)
 
-    return bodegas
+    return productos
+
