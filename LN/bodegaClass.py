@@ -2,6 +2,7 @@ from LD.conexion import DAO
 
 dao = DAO()
 
+
 class Bodega:
     # Creamos el constructor con parametros
     def __init__(self, id_bodega, nombre, direccion, jefe_asignado, capacidad, niveldeocupacion, correobodega,

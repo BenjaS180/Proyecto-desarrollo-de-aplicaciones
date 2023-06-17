@@ -1,7 +1,20 @@
 from mysql.connector import Error
-from LN.bodegaClass import obtener_bodegas
+from LN.bodegaClass import obtener_bodegas,Bodega
 from LN.productoClass import obtener_productos
 
+def ingresar_datos_bodega():
+    id_bodega = input("Ingrese el ID de la bodega: ")
+    nombre = input("Ingrese el nombre de la bodega: ")
+    direccion = input("Ingrese la dirección de la bodega: ")
+    jefe_asignado = input("Ingrese el jefe asignado de la bodega: ")
+    capacidad = input("Ingrese la capacidad de la bodega: ")
+    nivel_ocupacion = input("Ingrese el nivel de ocupación de la bodega: ")
+    correo_bodega = input("Ingrese el correo de la bodega: ")
+    numero_fijo = input("Ingrese el número fijo de la bodega: ")
+
+    # Crear una instancia de la clase Bodega utilizando los datos ingresados
+    bodega = Bodega(id_bodega, nombre, direccion, jefe_asignado, capacidad, nivel_ocupacion, correo_bodega, numero_fijo)
+    print(bodega)
 
 def menuPrincipal():
     while True:
@@ -18,8 +31,8 @@ def menuPrincipal():
             print("Opcion incorrecta, ingrese nuevamente...")
         else:
             if opcion == 1:
-                opcion_listar = int(input('Que informacion desea listar   1)Bodegas 2)Productos: '))
-                if opcion_listar == 1:
+                opcion_listar_bodegas = int(input('Que informacion desea listar   1)Bodegas 2)Productos: '))
+                if opcion_listar_bodegas == 1:
                     try:
                         bodegas = obtener_bodegas()
                         for bodega in bodegas:
@@ -40,7 +53,7 @@ def menuPrincipal():
                         print("Ocurrio un error...")
                         print("Error capturado: {}".format(ex))
 
-                elif opcion_listar == 2:
+                elif opcion_listar_bodegas == 2:
                     try:
                         productos = obtener_productos()
                         for producto in productos:
@@ -58,7 +71,10 @@ def menuPrincipal():
                         print("Ocurrio un error...")
                         print("Error capturado: {}".format(ex))
             elif opcion == 2:
-                print("Aquí va crear")
+                opcion_crear = int(input("Donde desea ingresar la nueva lista de datos 1)Bodegas 2)Productos"))
+                if opcion_crear == 1:
+                    ingresar_datos_bodega()
+
             elif opcion == 3:
                 print("Aquí va actualizar")
             elif opcion == 4:
@@ -69,3 +85,13 @@ def menuPrincipal():
 
 
 menuPrincipal()
+
+
+
+
+
+
+
+
+
+
