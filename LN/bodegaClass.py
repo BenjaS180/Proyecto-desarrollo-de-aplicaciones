@@ -179,3 +179,10 @@ def guardar_bodega(id_bodega, nombre, direccion, jefe_asignado, capacidad, nivel
                    bodega.Capacidad, bodega.Niveldeocupacion, bodega.Correobodega, bodega.Numerofijo]
 
     dao.Registrar_bodega(*bodega_data)
+
+
+def actualizar_bodega(id_bodega, campo_actualizar, nuevo_valor):
+
+    nuevos_datos = dao.actualizar_campo_bodega(id_bodega ,campo_actualizar, nuevo_valor)
+    return nuevos_datos
+

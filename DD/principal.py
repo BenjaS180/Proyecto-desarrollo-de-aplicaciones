@@ -1,7 +1,7 @@
 from mysql.connector import Error
 from datetime import datetime
-from LN.bodegaClass import obtener_bodegas, guardar_bodega
-from LN.productoClass import obtener_productos, guardar_producto
+from LN.bodegaClass import obtener_bodegas, guardar_bodega,actualizar_bodega
+from LN.productoClass import obtener_productos, guardar_producto,actualizar_producto
 
 
 # FUNCIONES DE INGRESO DE DATOS A BODEGA
@@ -30,6 +30,34 @@ def ingresar_datos_producto():
 
     producto = guardar_producto(id_producto, id_editorial, fechaing, cantidades, tipoproducto)
     return producto
+
+
+def solicitar_datos_actualizacion_bodega():
+    # Solicitar el ID de la bodega a actualizar
+    id_bodega = input("Ingrese el ID de la bodega a actualizar: ")
+
+    # Solicitar el nombre del campo a actualizar
+    campo_actualizar = input("Ingrese el nombre del campo a actualizar: ")
+
+    # Solicitar el nuevo valor para el campo
+    nuevo_valor = input("Ingrese el nuevo valor para el campo: ")
+
+    Actualizar_bodega = actualizar_bodega(id_bodega, campo_actualizar, nuevo_valor)
+    return Actualizar_bodega
+
+
+def solicitar_datos_actualizacion_producto():
+    # Solicitar el ID del producto a actualizar
+    id_producto = input("Ingrese el ID del producto a actualizar: ")
+
+    # Solicitar el nombre del campo a actualizar
+    campo_actualizar = input("Ingrese el nombre del campo a actualizar: ")
+
+    # Solicitar el nuevo valor para el campo
+    nuevo_valor = input("Ingrese el nuevo valor para el campo: ")
+
+    Actualizar_producto = actualizar_producto(id_producto, campo_actualizar, nuevo_valor)
+    return Actualizar_producto
 
 
 def menuPrincipal():
@@ -94,7 +122,15 @@ def menuPrincipal():
                     ingresar_datos_producto()
 
             elif opcion == 3:
-                print("Aquí va actualizar")
+                opcion_actualizar = int(input('Que lista desea actualizar: 1)Bodega 2)Producto'))
+                if opcion_actualizar == 1:
+                    print('Eligio actualizar un campo de la bodega')
+                    solicitar_datos_actualizacion_bodega()
+                else:
+                    print('Eligio actualizar un campo de los productos')
+                    solicitar_datos_actualizacion_producto()
+
+
             elif opcion == 4:
                 pass
             else:
