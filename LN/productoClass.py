@@ -40,6 +40,7 @@ class Producto:
 
     def setcantidades(self, cantidades):
         self.__cantidades = cantidades
+
     def settipoproducto(self, tipoproducto):
         self.__tipoproducto = tipoproducto
 
@@ -58,7 +59,6 @@ class Producto:
 
     def deltipoproducto(self):
         del self.__tipoproducto
-
 
     # Creamos propiedades de atributos
 
@@ -83,9 +83,9 @@ class Producto:
                           doc='Soy la propiedad del contacto')
 
     Tipoproducto = property(fget=gettipoproducto,
-                         fset=settipoproducto,
-                         fdel=deltipoproducto,
-                         doc='Soy la propiedad de la Capacidad')
+                            fset=settipoproducto,
+                            fdel=deltipoproducto,
+                            doc='Soy la propiedad del tipoproducto')
 
     # Creamos las operaciones del objeto.
 
@@ -111,3 +111,15 @@ def convertir_a_productos(resultados):
 
     return productos
 
+
+def guardar_producto(id_producto, id_editorial, fechaing, cantidades, tipoproducto):
+    producto = Producto(id_producto=id_producto,
+                        id_editorial=id_editorial,
+                        fechaing=fechaing,
+                        cantidades=cantidades,
+                        tipoproducto=tipoproducto)
+
+    producto_data = [producto.Idproducto, producto.Id_editorial, producto.Fechaing, producto.Cantidades,
+                     producto.Tipoproducto]
+
+    dao.Registrar_producto(*producto_data)

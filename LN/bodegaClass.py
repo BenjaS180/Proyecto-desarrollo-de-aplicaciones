@@ -161,7 +161,10 @@ def convertir_a_bodegas(resultados):
     return bodegas
 
 
+# aqui se hace un set para cada variable entregada en la funcion que se encuentra en la vista llamada
+# ingresar_datos_bodega, que inicializa todos los valores ingresados acontinuacion
 def guardar_bodega(id_bodega, nombre, direccion, jefe_asignado, capacidad, nivel_ocupacion, correo_bodega, numero_fijo):
+
     bodega = Bodega(id_bodega=id_bodega,
                     nombre=nombre,
                     direccion=direccion,
@@ -171,9 +174,8 @@ def guardar_bodega(id_bodega, nombre, direccion, jefe_asignado, capacidad, nivel
                     correobodega=correo_bodega,
                     numerofijo=numero_fijo)
 
-    # Convert Bodega object to a data structure compatible with the DAO
+    # Hay que convertir la Bodega objeto a un dato que la estructura sea compatible con la funcion que existe en dao
     bodega_data = [bodega.Idbodega, bodega.Nombre, bodega.Direccion, bodega.Jefeasignado,
                    bodega.Capacidad, bodega.Niveldeocupacion, bodega.Correobodega, bodega.Numerofijo]
 
     dao.Registrar_bodega(*bodega_data)
-
