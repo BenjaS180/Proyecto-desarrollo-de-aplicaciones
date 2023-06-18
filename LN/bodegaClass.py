@@ -159,3 +159,21 @@ def convertir_a_bodegas(resultados):
         bodegas.append(bodega)
 
     return bodegas
+
+
+def guardar_bodega(id_bodega, nombre, direccion, jefe_asignado, capacidad, nivel_ocupacion, correo_bodega, numero_fijo):
+    bodega = Bodega(id_bodega=id_bodega,
+                    nombre=nombre,
+                    direccion=direccion,
+                    jefe_asignado=jefe_asignado,
+                    capacidad=capacidad,
+                    niveldeocupacion=nivel_ocupacion,
+                    correobodega=correo_bodega,
+                    numerofijo=numero_fijo)
+
+    # Convert Bodega object to a data structure compatible with the DAO
+    bodega_data = [bodega.Idbodega, bodega.Nombre, bodega.Direccion, bodega.Jefeasignado,
+                   bodega.Capacidad, bodega.Niveldeocupacion, bodega.Correobodega, bodega.Numerofijo]
+
+    dao.Registrar_bodega(*bodega_data)
+

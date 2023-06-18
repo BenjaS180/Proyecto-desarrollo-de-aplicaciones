@@ -1,7 +1,9 @@
 from mysql.connector import Error
-from LN.bodegaClass import obtener_bodegas,Bodega
+from LN.bodegaClass import obtener_bodegas, guardar_bodega
 from LN.productoClass import obtener_productos
 
+
+# FUNCIONES DE INGRESO DE DATOS A BODEGA
 def ingresar_datos_bodega():
     id_bodega = input("Ingrese el ID de la bodega: ")
     nombre = input("Ingrese el nombre de la bodega: ")
@@ -12,9 +14,10 @@ def ingresar_datos_bodega():
     correo_bodega = input("Ingrese el correo de la bodega: ")
     numero_fijo = input("Ingrese el número fijo de la bodega: ")
 
-    # Crear una instancia de la clase Bodega utilizando los datos ingresados
-    bodega = Bodega(id_bodega, nombre, direccion, jefe_asignado, capacidad, nivel_ocupacion, correo_bodega, numero_fijo)
-    print(bodega)
+    bodega = guardar_bodega(id_bodega, nombre, direccion, jefe_asignado, capacidad, nivel_ocupacion, correo_bodega,
+                            numero_fijo)
+    return bodega
+
 
 def menuPrincipal():
     while True:
@@ -57,8 +60,8 @@ def menuPrincipal():
                     try:
                         productos = obtener_productos()
                         for producto in productos:
-                            print("ID: ", producto.Idproducto)
-                            print("ID: ", producto.Id_editorial)
+                            print("ID Producto: ", producto.Idproducto)
+                            print("ID Editorial: ", producto.Id_editorial)
                             print("Fechaing: ", producto.Fechaing)
                             print("Cantidades: ", producto.Cantidades)
                             print("Tipo de producto: ", producto.Tipoproducto)
@@ -71,7 +74,7 @@ def menuPrincipal():
                         print("Ocurrio un error...")
                         print("Error capturado: {}".format(ex))
             elif opcion == 2:
-                opcion_crear = int(input("Donde desea ingresar la nueva lista de datos 1)Bodegas 2)Productos"))
+                opcion_crear = int(input("Donde desea ingresar la nueva lista de datos 1)Bodegas 2)Productos: "))
                 if opcion_crear == 1:
                     ingresar_datos_bodega()
 
@@ -85,13 +88,3 @@ def menuPrincipal():
 
 
 menuPrincipal()
-
-
-
-
-
-
-
-
-
-
