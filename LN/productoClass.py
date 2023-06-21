@@ -125,8 +125,11 @@ def guardar_producto(id_producto, id_editorial, fechaing, cantidades, tipoproduc
     dao.Registrar_producto(*producto_data)
 
 
-
 def actualizar_producto(id_producto, campo_actualizar, nuevo_valor):
-
-    nuevos_datos = dao.actualizar_campo_producto(id_producto ,campo_actualizar, nuevo_valor)
+    nuevos_datos = dao.actualizar_campo_producto(id_producto, campo_actualizar, nuevo_valor)
     return nuevos_datos
+
+
+def eliminar_producto(id_opcion_eliminar):
+    opcion_eliminar = dao.Eliminar_producto(id_opcion_eliminar)
+    return opcion_eliminar

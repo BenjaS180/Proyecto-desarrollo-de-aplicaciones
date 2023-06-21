@@ -186,3 +186,9 @@ def actualizar_bodega(id_bodega, campo_actualizar, nuevo_valor):
     nuevos_datos = dao.actualizar_campo_bodega(id_bodega ,campo_actualizar, nuevo_valor)
     return nuevos_datos
 
+
+def eliminar_bodega(id_opcion_eliminar):
+
+    opcion_eliminar = dao.Eliminar_bodega(id_opcion_eliminar)
+    return opcion_eliminar
+

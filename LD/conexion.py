@@ -101,4 +101,21 @@ class DAO():
 
 
 
+    def Eliminar_bodega(self,id_opcion_eliminar):
+        if self.conexion.is_connected():
+            try:
+                cursor = self.conexion.cursor()
+                cursor.execute('DELETE FROM bodega WHERE id_bodega = %s',(id_opcion_eliminar,))
+                self.conexion.commit()
+            except Error as ex:
+                print("Error al intentar la conexion: {}".format(ex))
 
+
+    def Eliminar_producto(self,id_opcion_eliminar):
+        if self.conexion.is_connected():
+            try:
+                cursor = self.conexion.cursor()
+                cursor.execute('DELETE FROM productos WHERE id_producto = %s',(id_opcion_eliminar,))
+                self.conexion.commit()
+            except Error as ex:
+                print("Error al intentar la conexion: {}".format(ex))
