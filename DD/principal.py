@@ -5,10 +5,6 @@ from LN.productoClass import obtener_productos, guardar_producto, actualizar_pro
 
 
 
-
-
-
-
 # Funcion para mostrar datos de bodega
 def mostrar_bodega():
         bodegas = obtener_bodegas()
