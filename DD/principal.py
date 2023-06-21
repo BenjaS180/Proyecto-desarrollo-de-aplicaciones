@@ -4,7 +4,30 @@ from LN.bodegaClass import obtener_bodegas, guardar_bodega, actualizar_bodega,el
 from LN.productoClass import obtener_productos, guardar_producto, actualizar_producto,eliminar_producto
 
 
+#Validar cualquier numero
+def validar_int(text):
+    while True:
+      try:
+          val = int(input(text))
+          break
+      except ValueError:
+              print('Tiene que ser un numero')
+    return val
 
+#validar cuando son 1 y 2
+def uno_dos(text):
+    while True:
+      try:
+          val = int(input(text))
+          if (val >2 and  val < 1):
+            print('Tiene que ser un numero entre 1 y 2')
+            continue
+          else:
+              break
+      except ValueError:
+              print('Tiene que ser un numero entre 1 y 2')
+    return val
+        
 # Funcion para mostrar datos de bodega
 def mostrar_bodega():
         bodegas = obtener_bodegas()
@@ -30,14 +53,14 @@ def mostrar_producto():
 
 # FUNCIONES DE INGRESO DE DATOS A BODEGA
 def ingresar_datos_bodega():
-    id_bodega = int(input("Ingrese el ID de la bodega: "))
+    id_bodega = validar_int("Ingrese el ID de la bodega: ")
     nombre = str(input("Ingrese el nombre de la bodega: "))
     direccion = str(input("Ingrese la dirección de la bodega: "))
     jefe_asignado = str(input("Ingrese el jefe asignado de la bodega: "))
-    capacidad = int(input("Ingrese la capacidad de la bodega: "))
+    capacidad = validar_int("Ingrese la capacidad de la bodega: ")
     nivel_ocupacion = str(input("Ingrese el nivel de ocupación de la bodega: "))
     correo_bodega = str(input("Ingrese el correo de la bodega: "))
-    numero_fijo = int(input("Ingrese el número fijo de la bodega: "))
+    numero_fijo = validar_int("Ingrese el número fijo de la bodega: ")
 
     bodega = guardar_bodega(id_bodega, nombre, direccion, jefe_asignado, capacidad, nivel_ocupacion, correo_bodega,
                             numero_fijo)
@@ -45,11 +68,11 @@ def ingresar_datos_bodega():
 
 
 def ingresar_datos_producto():
-    id_producto = input('Ingrese el id del producto: ')
-    id_editorial = input('Ingrese el id de la editorial: ')
+    id_producto = validar_int('Ingrese el id del producto: ')
+    id_editorial = validar_int('Ingrese el id de la editorial: ')
     print('se agregara la fecha de ingreso automaticamente !')
     fechaing = datetime.now()
-    cantidades = input('Ingrese la/s cantidad/es: ')
+    cantidades = validar_int('Ingrese la/s cantidad/es: ')
     tipoproducto = input('Ingrese el tipodeproducto: ')
 
     producto = guardar_producto(id_producto, id_editorial, fechaing, cantidades, tipoproducto)
@@ -58,7 +81,7 @@ def ingresar_datos_producto():
 # Funciones Actualizar
 def solicitar_datos_actualizacion_bodega():
     # Solicitar el ID de la bodega a actualizar
-    id_bodega = input("Ingrese el ID de la bodega a actualizar: ")
+    id_bodega = validar_int("Ingrese el ID de la bodega a actualizar: ")
 
     # Solicitar el nombre del campo a actualizar
     campo_actualizar = input("Ingrese el nombre del campo a actualizar: ")
@@ -71,7 +94,7 @@ def solicitar_datos_actualizacion_bodega():
 
 
 def solicitar_datos_actualizacion_producto():
-    id_producto = input("Ingrese el ID del producto a actualizar: ")
+    id_producto = validar_int("Ingrese el ID del producto a actualizar: ")
 
     campo_actualizar = input("Ingrese el nombre del campo a actualizar: ")
 
@@ -82,13 +105,13 @@ def solicitar_datos_actualizacion_producto():
 
 # Funciones Eliminar
 def dato_eliminar_bodega():
-    id_opcion_eliminar_b = input('Ingrese el id de la lista que desea eliminar de bodega: ')
+    id_opcion_eliminar_b = validar_int('Ingrese el id de la lista que desea eliminar de bodega: ')
     Eliminar_una_bodega = eliminar_bodega(id_opcion_eliminar_b)
     print('La lista eliminada tiene el id:',id_opcion_eliminar_b)
     return Eliminar_una_bodega
 
 def dato_eliminar_producto():
-    id_opcion_eliminar_p = input('Ingrese el id de la lista que desea eliminar de productos: ')
+    id_opcion_eliminar_p = validar_int('Ingrese el id de la lista que desea eliminar de productos: ')
     Eliminar_un_producto = eliminar_producto(id_opcion_eliminar_p)
     print('La lista eliminada tiene el id:',id_opcion_eliminar_p)
     return Eliminar_un_producto
@@ -102,13 +125,13 @@ def menuPrincipal():
         print('4.- Eliminar')
         print('5.- Salir')
         print('==============================================')
-        opcion = int(input('Seleccione una opcion: '))
+        opcion = validar_int('Seleccione una opcion: ')
 
         if opcion < 1 or opcion > 5:
             print("Opcion incorrecta, ingrese nuevamente...")
         else:
             if opcion == 1:
-                opcion_listar_bodegas = int(input('Que informacion desea listar   1)Bodegas 2)Productos: '))
+                opcion_listar_bodegas = uno_dos('Que informacion desea listar   1)Bodegas 2)Productos: ')
                 if opcion_listar_bodegas == 1:
                     mostrar_bodega()
                     realizar_otra_opcion = input("¿Desea realizar otra opción? (S/N): ")
@@ -123,14 +146,14 @@ def menuPrincipal():
                         print('Gracias por utilizar este programa')
                         exit()
             elif opcion == 2:
-                opcion_crear = int(input("Donde desea ingresar la nueva lista de datos 1)Bodegas 2)Productos: "))
+                opcion_crear = uno_dos("Donde desea ingresar la nueva lista de datos 1)Bodegas 2)Productos: ")
                 if opcion_crear == 1:
                     ingresar_datos_bodega()
                 else:
                     ingresar_datos_producto()
 
             elif opcion == 3:
-                opcion_actualizar = int(input('Que lista desea actualizar: 1)Bodega 2)Producto'))
+                opcion_actualizar = uno_dos('Que lista desea actualizar: 1)Bodega 2)Producto')
                 if opcion_actualizar == 1:
                     print('Eligio actualizar un campo de la bodega')
                     solicitar_datos_actualizacion_bodega()
@@ -140,7 +163,7 @@ def menuPrincipal():
 
 
             elif opcion == 4:
-                opcion_eliminar = int(input('De que tabla desea eliminar una lista 1)Bodega 2)Producto: '))
+                opcion_eliminar = uno_dos('De que tabla desea eliminar una lista 1)Bodega 2)Producto: ')
                 if opcion_eliminar == 1:
                     dato_eliminar_bodega()
                 else:
