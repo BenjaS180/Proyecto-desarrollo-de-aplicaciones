@@ -3,17 +3,13 @@ from LD.conexion import DAO
 dao = DAO()
 
 class Colaborador:
-    def __init__(self, id_colaborador, id_usuario, cargo, accesos):
+    def __init__(self, id_colaborador, id_usuario, cargo):
         self.__id_colaborador = id_colaborador
         self.__id_usuario = id_usuario
         self.__cargo = cargo
-        self.__accesos = accesos
 
     def getid_colaborador(self):
         return self.__id_colaborador
-
-    def getaccesos(self):
-        return self.__accesos
 
     def getid_usuario(self):
         return self.__id_usuario
@@ -30,8 +26,6 @@ class Colaborador:
     def setcargo(self, cargo):
         self.__cargo = cargo
 
-    def setaccesos(self, accesos):
-        self.__accesos = accesos
 
     def delid_colaborador(self):
         del self.__id_colaborador
@@ -42,8 +36,6 @@ class Colaborador:
     def delcargo(self):
         del self.__cargo
 
-    def delaccesos(self):
-        del self.__accesos
 
     id_colaborador = property(fget=getid_colaborador,
                               fset=setid_colaborador,
@@ -54,6 +46,3 @@ class Colaborador:
     cargo = property(fget=getcargo,
                      fset=setcargo,
                      fdel=delcargo)
-    accesos = property(fget=getaccesos,
-                       fset=setaccesos,
-                       fdel=delaccesos)
