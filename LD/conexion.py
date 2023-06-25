@@ -127,7 +127,7 @@ class DAO():
             try:
                 cursor = self.conexion.cursor()
                 cursor.execute(
-                    """SELECT * FROM colaborador_credenciales WHERE usuario = %s AND contrasena = %s""",
+                    """SELECT accesos FROM colaborador_credenciales WHERE usuario = %s AND contrasena = %s""",
                     (usuario, contrasena)
                 )
 

@@ -1,6 +1,6 @@
-from tkinter import messagebox, Tk, Label, Button, Entry, Scrollbar, Text, Frame
-from LN.bodegaClass import obtener_bodegas, guardar_bodega, actualizar_bodega
-from LN.productoClass import obtener_productos, guardar_producto, actualizar_producto
+from tkinter import messagebox, Tk, Label, Button, Entry, Scrollbar, Text, Frame, Toplevel
+from LN.bodegaClass import obtener_bodegas, guardar_bodega, actualizar_bodega, eliminar_bodega
+from LN.productoClass import obtener_productos, guardar_producto, actualizar_producto, eliminar_producto
 from LN.colaboradorcredencialesClass import inicio_sesion,obtener_tipo_acceso
 from datetime import datetime
 
@@ -273,15 +273,46 @@ def solicitar_datos_actualizacion_producto():
 
 # Función para eliminar bodega
 def dato_eliminar_bodega():
-    pass
-    # Agrega aquí el código para eliminar una bodega
+    def abrir_ventana_eliminar_bodega():
+        ventana_eliminar_bodega = Toplevel()
+        ventana_eliminar_bodega.title("Eliminar Bodega")
 
+        def eliminar_bodega_ventana():
+            id_bodega = entry_id.get()
+            eliminar_bodega(id_bodega)
+            messagebox.showinfo("Eliminación exitosa", f"Bodega con ID {id_bodega} eliminada.")
+            ventana_eliminar_bodega.destroy()
 
-# Función para eliminar producto
+        label_id = Label(ventana_eliminar_bodega, text="ID de la Bodega:")
+        label_id.pack()
+        entry_id = Entry(ventana_eliminar_bodega)
+        entry_id.pack()
+
+        boton_eliminar = Button(ventana_eliminar_bodega, text="Eliminar", command=eliminar_bodega_ventana)
+        boton_eliminar.pack()
+
+    abrir_ventana_eliminar_bodega()
+
 def dato_eliminar_producto():
-    pass
-    # Agrega aquí el código para eliminar un producto
+    def abrir_ventana_eliminar_producto():
+        ventana_eliminar_producto = Toplevel()
+        ventana_eliminar_producto.title("Eliminar Producto")
 
+        def eliminar_producto_ventana():
+            id_producto = entry_id.get()
+            eliminar_producto(id_producto)
+            messagebox.showinfo("Eliminación exitosa", f"Producto con ID {id_producto} eliminado.")
+            ventana_eliminar_producto.destroy()
+
+        label_id = Label(ventana_eliminar_producto, text="ID del Producto:")
+        label_id.pack()
+        entry_id = Entry(ventana_eliminar_producto)
+        entry_id.pack()
+
+        boton_eliminar = Button(ventana_eliminar_producto, text="Eliminar", command=eliminar_producto_ventana)
+        boton_eliminar.pack()
+
+    abrir_ventana_eliminar_producto()
 
 # Funciónes de interfaces, segun el usuario (1)JEFE DE BODEGA
 def mostrar_interfaz_principal():
@@ -325,6 +356,19 @@ def mostrar_interfaz_principal():
 
     # Ejecutar ventana
     ventana.mainloop()
+
+def mostrar_interfaz_secundario():
+    # Crear ventana principal
+    ventana = Tk()
+    ventana.title("Programa de El loco")
+    ventana.geometry("1000x300")
+
+    marco_botones = Frame(ventana)
+    marco_botones.pack(pady=10)
+
+    # Etiqueta de título
+    titulo = Label(ventana, text="Programa de El loco", font=("Arial", 20))
+    titulo.pack(pady=10)
 
 
 # Función para verificar las credenciales de inicio de sesión
