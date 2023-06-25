@@ -2,6 +2,7 @@ from LD.conexion import DAO
 
 dao = DAO()
 
+
 class Usuarios:
     def __init__(self, id_usuarios, rut, nombre, apellido, correo, direccion, numeroc):
         self.__id_usuarios = id_usuarios
@@ -102,4 +103,3 @@ class Usuarios:
                        fset=setnumeroc,
                        fdel=delnumeroc,
                        doc="Soy la propiedad del numeroc")
-
