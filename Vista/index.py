@@ -206,41 +206,57 @@ def ingresar_datos_producto():
 
 
 # Función para actualizar bodega
+from tkinter import *
+
 def solicitar_datos_actualizacion_bodega():
-    # Agrega aquí el código para solicitar los datos de actualización de la bodega
     ventana_ingreso = Tk()
-    ventana_ingreso.title("Ingresar Producto")
+    ventana_ingreso.title("Actualizar Bodega")
 
     label_idbodega = Label(ventana_ingreso, text="ID de la bodega")
     label_idbodega.pack()
     entry_idbodega = Entry(ventana_ingreso)
     entry_idbodega.pack()
 
+    campos_posibles = ["id_bodega", "nombre", "direccion", "jefe_asignado", "capacidad", "niveldeocupacion", "correobodegas", "numerofijo"]
+
     label_campoactualizar = Label(ventana_ingreso, text="Campo que desea actualizar")
     label_campoactualizar.pack()
-    entry_campoactualizar = Entry(ventana_ingreso)
-    entry_campoactualizar.pack()
+
+    campoactualizar = StringVar(ventana_ingreso)  # Crear instancia de StringVar
+    campoactualizar.set(campos_posibles[0])
+
+    opciones_campoactualizar = OptionMenu(ventana_ingreso, campoactualizar, *campos_posibles)
+    opciones_campoactualizar.pack()
+
+    label_campo_seleccionado = Label(ventana_ingreso, text="Campo seleccionado: " + campoactualizar.get())
+    label_campo_seleccionado.pack()
 
     label_nuevovalor = Label(ventana_ingreso, text="Nuevo valor")
     label_nuevovalor.pack()
     entry_nuevovalor = Entry(ventana_ingreso)
     entry_nuevovalor.pack()
 
+    def actualizar_campo_seleccionado(*args):
+        label_campo_seleccionado.config(text="Campo seleccionado: " + campoactualizar.get())
+
+    campoactualizar.trace("w", actualizar_campo_seleccionado)  # Actualizar el campo seleccionado al cambiar la opción
+
     def actualizacion_bodega():
         id_bodega = int(entry_idbodega.get())
-        campoactualizar = str(entry_campoactualizar.get())
         nuevovalor = str(entry_nuevovalor.get())
 
-        actualizar_bodega(id_bodega, campoactualizar, nuevovalor)
+        campo_seleccionado = campoactualizar.get()
+        actualizar_bodega(id_bodega, campo_seleccionado, nuevovalor)
         ventana_ingreso.destroy()
 
     boton_guardar = Button(ventana_ingreso, text="Actualizar", command=actualizacion_bodega)
     boton_guardar.pack()
 
 
+
 # Función para actualizar producto
+
 def solicitar_datos_actualizacion_producto():
-    # Agrega aquí el código para solicitar los datos de actualización de la bodega
     ventana_ingreso = Tk()
     ventana_ingreso.title("Ingresar Producto")
 
@@ -249,26 +265,46 @@ def solicitar_datos_actualizacion_producto():
     entry_idproducto = Entry(ventana_ingreso)
     entry_idproducto.pack()
 
+    campos_posibles = ["id_producto", "id_editorial", "cantidades", "tipoproducto"]
+
     label_campoactualizar = Label(ventana_ingreso, text="Campo que desea actualizar")
     label_campoactualizar.pack()
-    entry_campoactualizar = Entry(ventana_ingreso)
-    entry_campoactualizar.pack()
+
+    campoactualizar = StringVar(ventana_ingreso)  # Crear instancia de StringVar
+    campoactualizar.set(campos_posibles[0])
+
+    opciones_campoactualizar = OptionMenu(ventana_ingreso, campoactualizar, *campos_posibles)
+    opciones_campoactualizar.pack()
+
+    label_campo_seleccionado = Label(ventana_ingreso, text="Campo seleccionado: " + campoactualizar.get())
+    label_campo_seleccionado.pack()
+    label_campo_seleccionado.pack()
 
     label_nuevovalor = Label(ventana_ingreso, text="Nuevo valor")
     label_nuevovalor.pack()
     entry_nuevovalor = Entry(ventana_ingreso)
     entry_nuevovalor.pack()
 
+    def actualizar_campo_seleccionado(*args):
+        label_campo_seleccionado.config(text="Campo seleccionado: " + campoactualizar.get())
+
+        campoactualizar.trace("w", actualizar_campo_seleccionado)
+
+
     def actualizacion_producto():
         id_producto = int(entry_idproducto.get())
-        campoactualizar = str(entry_campoactualizar.get())
         nuevovalor = str(entry_nuevovalor.get())
 
-        actualizar_producto(id_producto, campoactualizar, nuevovalor)
+        campo_seleccionado = campoactualizar.get()
+        actualizar_producto(id_producto, campo_seleccionado, nuevovalor)
         ventana_ingreso.destroy()
 
     boton_guardar = Button(ventana_ingreso, text="Actualizar", command=actualizacion_producto)
     boton_guardar.pack()
+
+
+
+
 
 
 # Función para eliminar bodega
