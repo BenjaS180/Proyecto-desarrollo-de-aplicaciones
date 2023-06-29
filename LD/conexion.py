@@ -74,7 +74,19 @@ class DAO():
             except  Error as ex:
 
                 print("Error al intentar la conexion: {}".format(ex))
+    def Registrar_mobodega(self,fecha, id_bodega_origen, id_bodega_destino, id_colaborador,id_producto):
+        if self.conexion.is_connected():
 
+            try:
+                cursor = self.conexion.cursor()
+                cursor.execute(
+                    """INSERT INTO movimientodebodega(fecha, id_bodega_origen, id_bodega_destino, id_colaborador,id_producto) VALUES (%s, %s, %s, %s,%s)""",
+                    (fecha, id_bodega_origen, id_bodega_destino, id_colaborador,id_producto))
+                self.conexion.commit()
+
+            except  Error as ex:
+
+                print("Error al intentar la conexion: {}".format(ex))
 
 
 
@@ -127,7 +139,7 @@ class DAO():
             try:
                 cursor = self.conexion.cursor()
                 cursor.execute(
-                    """SELECT accesos FROM colaborador_credenciales WHERE usuario = %s AND contrasena = %s""",
+                    """SELECT accesos,id_colaborador FROM colaborador_credenciales WHERE usuario = %s AND contrasena = %s""",
                     (usuario, contrasena)
                 )
 
@@ -140,3 +152,25 @@ class DAO():
         else:
             print("No se pudo establecer una conexión a la base de datos.")
 
+
+
+
+    def Movimientos_bodegas(self,fecha, id_colaborador, id_bodega_origen, id_bodega_destino,id_producto):
+        if self.conexion.is_connected():
+            try:
+                cursor = self.conexion.cursor()
+
+
+                # Insertar los datos en la tabla correspondiente
+                cursor.execute(
+                    """INSERT INTO movimientodebodega (fecha, id_colaborador, id_bodega_origen, id_bodega_destino,id_producto) VALUES (%s, %s, %s, %s, %s)""",
+                    (fecha, id_bodega_origen,id_bodega_destino, id_colaborador,id_producto)
+                )
+
+                self.conexion.commit()
+                print("Movimiento de bodegas registrado exitosamente.")
+
+            except Error as ex:
+                print("Error al intentar la conexión: {}".format(ex))
+        else:
+            print("No se pudo establecer una conexión a la base de datos.")

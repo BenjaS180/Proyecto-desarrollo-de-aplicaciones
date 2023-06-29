@@ -1,6 +1,7 @@
 from tkinter import messagebox, Tk, Label, Button, Entry, Scrollbar, Text, Frame, Toplevel
 from LN.bodegaClass import obtener_bodegas, guardar_bodega, actualizar_bodega, eliminar_bodega
 from LN.productoClass import obtener_productos, guardar_producto, actualizar_producto, eliminar_producto
+from LN.movimientodebodegaClass import obtener_colaborador,movimientobodega
 from LN.colaboradorcredencialesClass import inicio_sesion,obtener_tipo_acceso
 from datetime import datetime
 
@@ -162,6 +163,48 @@ def ingresar_datos_bodega():
     # Ejecutar ventana secundaria
     ventana_ingreso.mainloop()
 
+def ingresar_datos_movimiento_bodega():
+    # Crear ventana secundaria para ingresar datos
+    ventana_ingreso = Tk()
+    ventana_ingreso.title("Ingresar Movimiento de Bodega")
+
+    label_id_bodega_origen = Label(ventana_ingreso, text="ID de Bodega Origen:")
+    label_id_bodega_origen.pack()
+    entry_id_bodega_origen = Entry(ventana_ingreso)
+    entry_id_bodega_origen.pack()
+
+    label_id_bodega_destino = Label(ventana_ingreso, text="ID de Bodega Destino:")
+    label_id_bodega_destino.pack()
+    entry_id_bodega_destino = Entry(ventana_ingreso)
+    entry_id_bodega_destino.pack()
+
+    label_id_producto = Label(ventana_ingreso, text="ID de producto:")
+    label_id_producto.pack()
+    entry_id_producto = Entry(ventana_ingreso)
+    entry_id_producto.pack()
+
+    def ingresar_movimiento_bodega():
+        # Obtener los valores ingresados por el usuario
+
+        fecha = datetime.now()
+        id_bodega_origen = entry_id_bodega_origen.get()
+        id_bodega_destino = entry_id_bodega_destino.get()
+        id_colaborador = obtener_colaborador(usuario,contrasena)
+        id_producto = entry_id_producto.get()
+
+        # Guardar el movimiento de bodega
+        movimientobodega(fecha, id_bodega_origen, id_bodega_destino, id_colaborador,id_producto)
+
+        # Cerrar la ventana de ingreso de datos
+        ventana_ingreso.destroy()
+
+    # Botón para guardar los datos ingresados
+    boton_guardar = Button(ventana_ingreso, text="Guardar", command=ingresar_movimiento_bodega)
+    boton_guardar.pack()
+
+    # Ejecutar ventana secundaria
+    ventana_ingreso.mainloop()
+
 
 # Función para ingresar datos a producto
 def ingresar_datos_producto():
@@ -203,6 +246,46 @@ def ingresar_datos_producto():
 
     boton_guardar = Button(ventana_ingreso, text="Guardar", command=ingresar_producto)
     boton_guardar.pack()
+
+    def ingresar_datos_producto():
+        # Agrega aquí el código para ingresar los datos del producto
+        ventana_ingreso = Tk()
+        ventana_ingreso.title("Ingresar Producto")
+
+        # Etiquegas y campos de entrada para los datos de producto
+        label_idproducto = Label(ventana_ingreso, text="ID del Producto")
+        label_idproducto.pack()
+        entry_idproducto = Entry(ventana_ingreso)
+        entry_idproducto.pack()
+
+        label_ideditorial = Label(ventana_ingreso, text="ID de la editorial")
+        label_ideditorial.pack()
+        entry_ideditorial = Entry(ventana_ingreso)
+        entry_ideditorial.pack()
+
+        label_cantidades = Label(ventana_ingreso, text="Cantidades de los productos")
+        label_cantidades.pack()
+        entry_cantidades = Entry(ventana_ingreso)
+        entry_cantidades.pack()
+
+        label_tipoproducto = Label(ventana_ingreso, text="Tipo de producto")
+        label_tipoproducto.pack()
+        entry_tipoproducto = Entry(ventana_ingreso)
+        entry_tipoproducto.pack()
+
+        def ingresar_producto():
+            id_producto = int(entry_idproducto.get())
+            id_editorial = int(entry_ideditorial.get())
+            fechaing = datetime.now()
+            cantidades = int(entry_cantidades.get())
+            tipoproducto = str(entry_tipoproducto.get())
+
+            guardar_producto(id_producto, id_editorial, fechaing, cantidades, tipoproducto)
+
+            ventana_ingreso.destroy()
+
+        boton_guardar = Button(ventana_ingreso, text="Guardar", command=ingresar_producto)
+        boton_guardar.pack()
 
 
 # Función para actualizar bodega
@@ -355,13 +438,13 @@ def mostrar_interfaz_principal():
     # Crear ventana principal
     ventana = Tk()
     ventana.title("Programa de El loco")
-    ventana.geometry("1000x300")
+    ventana.geometry("1125x250")
 
     marco_botones = Frame(ventana)
     marco_botones.pack(pady=10)
 
     # Etiqueta de título
-    titulo = Label(ventana, text="Programa de El loco", font=("Arial", 20))
+    titulo = Label(ventana, text="Bienvenido jefe de bodega", font=("Arial", 20))
     titulo.pack(pady=10)
 
     # Botones
@@ -377,11 +460,13 @@ def mostrar_interfaz_principal():
     boton_ingresar_producto = Button(ventana, text="Ingresar Producto", command=ingresar_datos_producto)
     boton_ingresar_producto.pack(side="left", padx=10)
 
+    boton_ingresar_movimiento = Button(ventana, text="Ingresar Movimiento", command=ingresar_datos_movimiento_bodega)
+    boton_ingresar_movimiento.pack(side="left", padx=10)
+
     boton_actualizar_bodega = Button(ventana, text="Actualizar Bodega", command=solicitar_datos_actualizacion_bodega)
     boton_actualizar_bodega.pack(side="left", padx=10)
 
-    boton_actualizar_producto = Button(ventana, text="Actualizar Producto",
-                                       command=solicitar_datos_actualizacion_producto)
+    boton_actualizar_producto = Button(ventana, text="Actualizar Producto",command=solicitar_datos_actualizacion_producto)
     boton_actualizar_producto.pack(side="left", padx=10)
 
     boton_eliminar_bodega = Button(ventana, text="Eliminar Bodega", command=dato_eliminar_bodega)
@@ -397,18 +482,39 @@ def mostrar_interfaz_secundario():
     # Crear ventana principal
     ventana = Tk()
     ventana.title("Programa de El loco")
-    ventana.geometry("1000x300")
+    ventana.geometry("300x200")
 
     marco_botones = Frame(ventana)
     marco_botones.pack(pady=10)
 
     # Etiqueta de título
-    titulo = Label(ventana, text="Programa de El loco", font=("Arial", 20))
+    titulo = Label(ventana, text="Bienvenido Bodeguero", font=("Arial", 20))
+    titulo.pack(pady=10)
+
+    boton_mostrar_bodega = Button(ventana, text="Mostrar Bodega", command=mostrar_bodega)
+    boton_mostrar_bodega.pack(side="left", padx=15)
+
+    boton_mostrar_producto = Button(ventana, text="Mostrar Producto", command=mostrar_producto)
+    boton_mostrar_producto.pack(side="left", padx=15)
+
+
+def mostrar_interfaz_terciario():
+    ventana = Tk()
+    ventana.title("Programa de El loco")
+    ventana.geometry("500x500")
+
+    marco_botones = Frame(ventana)
+    marco_botones.pack(pady=10)
+
+    # Etiqueta de título
+    titulo = Label(ventana, text="Bienvenido Administrador", font=("Arial", 20))
     titulo.pack(pady=10)
 
 
 # Función para verificar las credenciales de inicio de sesión
 def verificar_credenciales():
+    global usuario
+    global contrasena
     usuario = entry_usuario.get()
     contrasena = entry_contrasena.get()
 
@@ -420,7 +526,10 @@ def verificar_credenciales():
         # Obtener el tipo de acceso
         tipo_acceso = obtener_tipo_acceso(usuario, contrasena)
 
-        if tipo_acceso is not None:
+        # Obtener el colaborador
+        colaborador = obtener_colaborador(usuario, contrasena)
+
+        if tipo_acceso is not None and colaborador is not None:
             # Mostrar un mensaje de éxito y continuar con la aplicación
             messagebox.showinfo("Inicio de Sesión", "Inicio de sesión exitoso")
             ventana.title("Inicio de Sesión")
@@ -430,12 +539,12 @@ def verificar_credenciales():
             if tipo_acceso == 1:
                 mostrar_interfaz_principal()
             elif tipo_acceso == 2:
-                print("este seria el menu 2")
+                mostrar_interfaz_secundario()
             elif tipo_acceso == 3:
-                print("este seria el menu 3")
+                mostrar_interfaz_terciario()
         else:
-            # Mostrar un mensaje de error en caso de tipo de acceso inválido
-            messagebox.showerror("Inicio de Sesión", "Tipo de acceso inválido")
+            # Mostrar un mensaje de error en caso de tipo de acceso inválido o colaborador no encontrado
+            messagebox.showerror("Inicio de Sesión", "Tipo de acceso inválido o colaborador no encontrado")
     else:
         # Mostrar un mensaje de error en caso de credenciales incorrectas
         messagebox.showerror("Inicio de Sesión", "Credenciales incorrectas")

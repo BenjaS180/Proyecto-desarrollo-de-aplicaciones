@@ -1,3 +1,7 @@
+from LD.conexion import DAO
+
+dao = DAO()
+
 class Editoriales:
     def __init__(self, id_editorial, nombre, cantidad):
         self.__id_editorial = id_editorial
@@ -31,15 +35,17 @@ class Editoriales:
     def del_cantidad(self):
         del self.__cantidad
 
-    id_editorial = property(fget=get_id_editorial,
+    ID_editorial = property(fget=get_id_editorial,
                             fset=set_id_editorial,
                             fdel=del_id_editorial,
                             doc="Soy la propiedad id_editorial")
-    nombre = property(fget=get_nombre,
+    Nombre = property(fget=get_nombre,
                       fset=set_nombre,
                       fdel=del_nombre,
                       doc="Soy la propiedad nombre")
-    cantidad = property(fget=get_cantidad,
+    Cantidad = property(fget=get_cantidad,
                         fset=set_cantidad,
                         fdel=del_cantidad,
                         doc="Soy la propiedad cantidad")
+
+
