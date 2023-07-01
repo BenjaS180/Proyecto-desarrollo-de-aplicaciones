@@ -62,7 +62,7 @@ class DAO():
             try:
                 cursor = self.conexion.cursor()
                 cursor.execute(
-                    """INSERT INTO bodega(id_bodega, nombre, direccion, jefe_asignado, capacidad, niveldeocupacion, correobodegas, numerofijo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+                    """INSERT INTO bodega(ID_bodega, nombre, direccion, ID_colaborador, capacidad, nivel_ocupacion, correo_bodegas, numero_fijo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
                     (id_bodega, nombre, direccion, jefe_asignado, capacidad, nivelocupacion, correobodega, numerofijo))
                 self.conexion.commit()
 
@@ -70,14 +70,14 @@ class DAO():
 
                 print("Error al intentar la conexion: {}".format(ex))
 
-    def Registrar_producto(self, id_producto, id_editorial, fechaing, cantidades, tipoproducto):
+    def Registrar_producto(self, id_producto, fechaing, cantidades, tipoproducto):
         if self.conexion.is_connected():
 
             try:
                 cursor = self.conexion.cursor()
                 cursor.execute(
-                    """INSERT INTO productos(id_producto, id_editorial, fechaing, cantidades, tipoproducto) VALUES (%s, %s, %s, %s, %s)""",
-                    (id_producto, id_editorial, fechaing, cantidades, tipoproducto))
+                    """INSERT INTO productos(ID_producto, fecha_ing, cantidades, tipo_producto) VALUES (%s, %s, %s, %s)""",
+                    (id_producto, fechaing, cantidades, tipoproducto))
                 print('Campo ingresado con exito')
                 self.conexion.commit()
 
@@ -98,6 +98,48 @@ class DAO():
             except  Error as ex:
 
                 print("Error al intentar la conexion: {}".format(ex))
+
+    def Registrar_colaborador(self, cargo, id_usuario):
+        if self.conexion.is_connected():
+
+            try:
+                cursor = self.conexion.cursor()
+                cursor.execute(
+                    """INSERT INTO colaborador(cargo, ID_usuarios) VALUES (%s, %s)""",
+                    (cargo, id_usuario))
+                self.conexion.commit()
+
+            except  Error as ex:
+
+                print("Error al intentar la conexion: {}".format(ex))
+
+    def Registrar_credenciales(self,id_colaborador,usuario,contrasena,accesos):
+        if self.conexion.is_connected():
+            try:
+                cursor = self.conexion.cursor()
+                cursor.execute(
+                    """INSERT INTO colaborador_credenciales(ID_colaborador,usuario,contrasena,accesos) VALUES (%s, %s, %s, %s)""",
+                    (id_colaborador,usuario,contrasena,accesos))
+                self.conexion.commit()
+
+            except  Error as ex:
+
+                print("Error al intentar la conexion: {}".format(ex))
+
+    def Registrar_usuario(self,rut, nombre, apellido_p, apellido_m, correo, direccion, numero_c):
+        if self.conexion.is_connected():
+            try:
+                cursor = self.conexion.cursor()
+                cursor.execute(
+                    """INSERT INTO usuarios(rut, nombre, apellido_p, apellido_m, correo, direccion, numero_c) VALUES (%s, %s, %s, %s,%s, %s, %s)""",
+                    (rut, nombre, apellido_p, apellido_m, correo, direccion, numero_c))
+                self.conexion.commit()
+
+            except  Error as ex:
+
+                print("Error al intentar la conexion: {}".format(ex))
+
+
 
     def actualizar_campo_bodega(self, id_bodega, campo_actualizar, nuevo_valor):
         if self.conexion.is_connected():
@@ -146,6 +188,43 @@ class DAO():
                 cursor.execute(
                     """SELECT accesos,id_colaborador FROM colaborador_credenciales WHERE usuario = %s AND contrasena = %s""",
                     (usuario, contrasena)
+                )
+
+                # Obtener el resultado de la consulta
+                resultados = cursor.fetchone()
+                return resultados
+
+            except Error as ex:
+                print("Error al intentar la conexión: {}".format(ex))
+        else:
+            print("No se pudo establecer una conexión a la base de datos.")
+
+    # Consulta de datos varios:
+    def Consulta_usuario(self,rut):
+        if self.conexion.is_connected():
+            try:
+                cursor = self.conexion.cursor()
+                cursor.execute(
+                    """SELECT ID_usuarios FROM usuarios WHERE rut = %s""",
+                    (rut,)
+                )
+
+                # Obtener el resultado de la consulta
+                resultados = cursor.fetchone()
+                return resultados
+
+            except Error as ex:
+                print("Error al intentar la conexión: {}".format(ex))
+        else:
+            print("No se pudo establecer una conexión a la base de datos.")
+
+    def Consulta_colaborador(self,id_usuario):
+        if self.conexion.is_connected():
+            try:
+                cursor = self.conexion.cursor()
+                cursor.execute(
+                    """SELECT id_colaborador FROM colaborador WHERE ID_usuarios = %s""",
+                    (id_usuario,)
                 )
 
                 # Obtener el resultado de la consulta

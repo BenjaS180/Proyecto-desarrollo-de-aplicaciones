@@ -4,30 +4,20 @@ dao = DAO()
 
 
 class Colaborador_credenciales:
-    def __init__(self, ID, ID_colaborador, usuario, contrasena, accesos):
-        self.__ID = ID
-        self.__ID_colaborador = ID_colaborador
+    def __init__(self, id_colaborador, usuario, contrasena, accesos):
+        self.__id_colaborador = id_colaborador
         self.__usuario = usuario
         self.__contrasena = contrasena
         self.__accesos = accesos
 
-    def getID(self):
-        return self.__ID
+    def getid_colaborador(self):
+        return self.__id_colaborador
 
-    def setID(self, ID):
-        self.__ID = ID
+    def setid_colaborador(self, id_colaborador):
+        self.__id_colaborador = id_colaborador
 
-    def delID(self):
-        del self.__ID
-
-    def getID_colaborador(self):
-        return self.__ID_colaborador
-
-    def setID_colaborador(self, ID_colaborador):
-        self.__ID_colaborador = ID_colaborador
-
-    def delID_colaborador(self):
-        del self.__ID_colaborador
+    def delid_colaborador(self):
+        del self.__id_colaborador
 
     def getusuario(self):
         return self.__usuario
@@ -56,13 +46,9 @@ class Colaborador_credenciales:
     def delaccesos(self):
         del self.__accesos
 
-    ID = property(fget=getID,
-                  fset=setID,
-                  fdel=delID,
-                  doc="Soy la propiedad ID")
-    ID_colaborador = property(fget=getID_colaborador,
-                              fset=setID_colaborador,
-                              fdel=delID_colaborador,
+    ID_colaborador = property(fget=getid_colaborador,
+                              fset=setid_colaborador,
+                              fdel=delid_colaborador,
                               doc="Soy la propiedad ID_colaborador")
     Usuario = property(fget=getusuario,
                        fset=setusuario,
@@ -72,11 +58,9 @@ class Colaborador_credenciales:
                           fset=setcontrasena,
                           fdel=delcontrasena,
                           doc="Soy la propiedad contrasena")
-
     Accesos = property(fget=getaccesos,
                        fset=setaccesos,
-                       fdel=delaccesos,
-                       doc="Soy la propiedad del acceso")
+                       fdel=delaccesos)
 
 
 def inicio_sesion(usuario, contrasena):
@@ -84,11 +68,29 @@ def inicio_sesion(usuario, contrasena):
     return credenciales
 
 
+def ingresar_credenciales(id_colaborador, usuario, contrasena, accesos):
+    colaborador = Colaborador_credenciales(
+        id_colaborador=id_colaborador,
+        usuario=usuario,
+        contrasena=contrasena,
+        accesos=accesos
+    )
+
+    colaborador_data = [
+        colaborador.ID_colaborador,
+        colaborador.Usuario,
+        colaborador.Contrasena,
+        colaborador.Accesos
+    ]
+
+    dao.Registrar_credenciales(*colaborador_data)
+
+
 def obtener_tipo_acceso(usuario, contrasena):
     accesos = dao.Iniciar_sesion(usuario, contrasena)
 
     if accesos is not None:
-        tipo_acceso = Colaborador_credenciales.Accesos = accesos[0]  # Obtener el valor del tipo de acceso desde los resultados de la consulta
+        tipo_acceso = accesos[0]  # Obtener el valor del tipo de acceso desde los resultados de la consulta
         return tipo_acceso
     else:
         return None
