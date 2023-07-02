@@ -1,12 +1,13 @@
-from tkinter import messagebox,ttk
+from tkinter import messagebox, ttk
 from tkinter import *
 from LN.bodegaClass import obtener_bodegas, guardar_bodega, actualizar_bodega, eliminar_bodega
 from LN.productoClass import obtener_productos, guardar_producto, actualizar_producto, eliminar_producto
-from LN.movimientodebodegaClass import obtener_colaborador, movimientobodega,obtener_historialmovimientos
-from LN.colaboradorcredencialesClass import inicio_sesion, obtener_tipo_acceso,ingresar_credenciales
-from LN.usuariosClass import selecusuario,obtener_id_usuario,ingresar_usuarios_data
-from LN.colaboradoresClass import guardar_colaborador,obtener_colaborador1
+from LN.movimientodebodegaClass import obtener_colaborador, movimientobodega, obtener_historialmovimientos
+from LN.colaboradorcredencialesClass import inicio_sesion, obtener_tipo_acceso, ingresar_credenciales
+from LN.usuariosClass import selecusuario, obtener_id_usuario, ingresar_usuarios_data
+from LN.colaboradoresClass import guardar_colaborador, obtener_colaborador1
 from datetime import datetime
+
 
 # Función para mostrar bodegas
 def mostrar_bodega():
@@ -88,6 +89,7 @@ def mostrar_bodega():
 
     # Ejecutar ventana secundaria
 
+
 # Funcion para mostrar productos
 def mostrar_producto():
     # Función para actualizar los datos en la tabla
@@ -153,43 +155,72 @@ def mostrar_producto():
     # Ejecutar ventana secundaria
     ventana_mostrar.mainloop()
 
+
 # Función para mostrar el historial de movimientos
 def mostrar_historialesm():
-    # Crear ventana secundaria para mostrar los datos de la bodega
+    # Función para actualizar los datos en la tabla
+    def actualizar_tabla():
+        # Borrar todos los registros de la tabla
+        tabla.delete(*tabla.get_children())
+
+        # Obtener los datos de los historiales de movimientos
+        historiales = obtener_historialmovimientos()
+
+        # Agregar los datos a la tabla
+        for historial in historiales:
+            tabla.insert("", "end", text="", values=(
+                historial.Fecha,
+                historial.N_bodega_origen,
+                historial.N_bodega_destino,
+                historial.Id_colaborador,
+                historial.Id_producto
+            ))
+
+            # Agrega aquí los datos adicionales del historial
+
+    # Crear ventana secundaria para mostrar los datos de los historiales de movimientos
     ventana_mostrar = Tk()
     ventana_mostrar.title("Historial de movimientos")
 
-    # Crear un widget Text para mostrar los datos
-    texto = Text(ventana_mostrar, height=10, width=50)
-    texto.pack(side="left", fill="both", expand=True)
+    # Crear un widget Treeview para mostrar los datos en forma de tabla
+    tabla = ttk.Treeview(ventana_mostrar)
+    tabla.pack(expand=True, fill="both")
 
-    # Crear un scrollbar para desplazarse por los datos
-    scrollbar = Scrollbar(ventana_mostrar)
-    scrollbar.pack(side="right", fill="y")
+    # Configurar las columnas de la tabla
+    tabla["columns"] = ("fecha", "bodega_origen", "bodega_destino", "colaborador", "producto")
+    tabla.column("#0", width=0, stretch="NO")  # Columna invisible
+    tabla.column("fecha", width=150)
+    tabla.column("bodega_origen", width=200)
+    tabla.column("bodega_destino", width=200)
+    tabla.column("colaborador", width=100, anchor="center")
+    tabla.column("producto", width=100, anchor="center")
 
-    # Asociar el scrollbar con el widget Text
-    texto.config(yscrollcommand=scrollbar.set)
-    scrollbar.config(command=texto.yview)
+    # Configurar encabezados de las columnas
+    tabla.heading("#0", text="")
+    tabla.heading("fecha", text="Fecha")
+    tabla.heading("bodega_origen", text="Bodega de Origen")
+    tabla.heading("bodega_destino", text="Bodega de Destino")
+    tabla.heading("colaborador", text="ID Colaborador")
+    tabla.heading("producto", text="ID Producto")
 
-    # Obtener los datos de las bodegas
+    # Obtener los datos de los historiales de movimientos
     historiales = obtener_historialmovimientos()
 
-    # Agregar los datos al widget Text
-    for i, historial in enumerate(historiales):
-        texto.insert("end", "Fecha: " + str(historial.Fecha) + "\n")
-        texto.insert("end", "Nombre de la bodega de origen: " + str(historial.N_bodega_origen) + "\n")
-        texto.insert("end", "Nombre de la bodega de destino: " + str(historial.N_bodega_destino) + "\n")
-        texto.insert("end", "ID del colaborador: " + str(historial.Id_colaborador) + "\n")
-        texto.insert("end", "ID del producto: " + str(historial.Id_producto) + "\n")
+    # Agregar los datos a la tabla
+    for historial in historiales:
+        tabla.insert("", "end", text="", values=(
+            historial.Fecha,
+            historial.N_bodega_origen,
+            historial.N_bodega_destino,
+            historial.Id_colaborador,
+            historial.Id_producto
+        ))
 
-        # Agrega aquí los datos adicionales de la bodega
+        # Agrega aquí los datos adicionales del historial
 
-        # Separador entre bodegas
-        if i < len(historiales) - 1:
-            texto.insert("end", "------------------------\n")
-
-    # Desactivar la edición del widget Text
-    texto.config(state="disabled")
+    # Crear un botón de actualización
+    boton_actualizar = ttk.Button(ventana_mostrar, text="Actualizar", command=actualizar_tabla)
+    boton_actualizar.pack()
 
     # Ejecutar ventana secundaria
     ventana_mostrar.mainloop()
@@ -222,7 +253,7 @@ def ingresarusuarioc():
 
             def crear_co():
                 cargo = entry_cargo.get()
-                guardar_colaborador(cargo,id_usuario)
+                guardar_colaborador(cargo, id_usuario)
                 ventana_nueva.destroy()
                 messagebox.showinfo("Éxito", "Colaborador ingresado con éxito.")
                 c_credencial(id_usuario)
@@ -281,6 +312,7 @@ def ingresarusuarioc():
 
     ventana_ingreso.mainloop()
 
+
 # Función para agregar una bodega
 def ingresar_datos_bodega():
     # Crear ventana secundaria para ingresar datos
@@ -328,7 +360,7 @@ def ingresar_datos_bodega():
         id_bodega = int(entry_id.get())
         nombre = entry_nombre.get()
         direccion = entry_direccion.get()
-        id_colaborador = obtener_colaborador(usuario,contrasena)
+        id_colaborador = obtener_colaborador(usuario, contrasena)
         capacidad = int(entry_capacidad.get())
         nivelocupacion = int(entry_nivelocupacion.get())
         correobodega = entry_correobodega.get()
@@ -348,6 +380,7 @@ def ingresar_datos_bodega():
 
     # Ejecutar ventana secundaria
     ventana_ingreso.mainloop()
+
 
 # Función para ingresar datos de movimientos de bodega
 def ingresar_datos_movimiento_bodega():
@@ -391,7 +424,6 @@ def ingresar_datos_movimiento_bodega():
 
     # Ejecutar ventana secundaria
     ventana_ingreso.mainloop()
-
 
 
 def ingresar_usuarios():
@@ -445,7 +477,6 @@ def ingresar_usuarios():
         direccion = entry_direccion.get()
         numero_c = entry_numero_c.get()
 
-
         # Guardar el usuario
         ingresar_usuarios_data(rut, nombre, apellido_p, apellido_m, correo, direccion, numero_c)
 
@@ -488,12 +519,13 @@ def ingresar_datos_producto():
         cantidades = int(entry_cantidades.get())
         tipoproducto = str(entry_tipoproducto.get())
 
-        guardar_producto(id_producto,fechaing, cantidades, tipoproducto)
+        guardar_producto(id_producto, fechaing, cantidades, tipoproducto)
 
         ventana_ingreso.destroy()
 
     boton_guardar = Button(ventana_ingreso, text="Guardar", command=ingresar_producto)
     boton_guardar.pack()
+
 
 # Función para actualizar datos de bodegas
 def solicitar_datos_actualizacion_bodega():
@@ -505,7 +537,7 @@ def solicitar_datos_actualizacion_bodega():
     entry_idbodega = Entry(ventana_ingreso)
     entry_idbodega.pack()
 
-    campos_posibles = ["id_bodega", "nombre", "direccion", "jefe_asignado", "capacidad", "niveldeocupacion",
+    campos_posibles = ["nombre", "direccion", "ID_colaborador", "capacidad", "niveldeocupacion",
                        "correobodegas", "numerofijo"]
 
     label_campoactualizar = Label(ventana_ingreso, text="Campo que desea actualizar")
@@ -545,14 +577,14 @@ def solicitar_datos_actualizacion_bodega():
 # Función para actualizar producto
 def solicitar_datos_actualizacion_producto():
     ventana_ingreso = Tk()
-    ventana_ingreso.title("Ingresar Producto")
+    ventana_ingreso.title("Actualizar producto")
 
     label_idproducto = Label(ventana_ingreso, text="ID del Producto")
     label_idproducto.pack()
     entry_idproducto = Entry(ventana_ingreso)
     entry_idproducto.pack()
 
-    campos_posibles = ["id_producto", "id_editorial", "cantidades", "tipoproducto"]
+    campos_posibles = [ "cantidades", "tipo de producto"]
 
     label_campoactualizar = Label(ventana_ingreso, text="Campo que desea actualizar")
     label_campoactualizar.pack()
@@ -610,6 +642,7 @@ def dato_eliminar_bodega():
         boton_eliminar.pack()
 
     abrir_ventana_eliminar_bodega()
+
 
 # Función para eliminar un producto
 def dato_eliminar_producto():
@@ -680,12 +713,13 @@ def mostrar_interfaz_principal():
     # Ejecutar ventana
     ventana.mainloop()
 
+
 # Función de interfaces, segun el usuario (2)BODEGUERO
 def mostrar_interfaz_secundario():
     # Crear ventana principal
     ventana = Tk()
-    ventana.title("Programa de El loco")
-    ventana.geometry("465x200")
+    ventana.title("Programa de bodegas")
+    ventana.geometry("650x200")
 
     marco_botones = Frame(ventana)
     marco_botones.pack(pady=10)
@@ -700,14 +734,18 @@ def mostrar_interfaz_secundario():
     boton_mostrar_producto = Button(ventana, text="Mostrar Producto", command=mostrar_producto)
     boton_mostrar_producto.pack(side="left", padx=15)
 
+    boton_ingresar_movimiento = Button(ventana, text="Ingresar Movimiento", command=ingresar_datos_movimiento_bodega)
+    boton_ingresar_movimiento.pack(side="left", padx=15)
+
     boton_mostrar_historial = Button(ventana, text="Listar historial de movimientos", command=mostrar_historialesm)
     boton_mostrar_historial.pack(side="left", padx=15)
+
 
 # Función de interfaces, segun el usuario (3)Administrador
 def mostrar_interfaz_terciario():
     ventana = Tk()
     ventana.title("Programa de El loco")
-    ventana.geometry("500x500")
+    ventana.geometry("320x500")
 
     marco_botones = Frame(ventana)
     marco_botones.pack(pady=10)
@@ -721,7 +759,6 @@ def mostrar_interfaz_terciario():
 
     boton_rut_usuario = Button(ventana, text="Crear nuevo colaborador", command=ingresarusuarioc)
     boton_rut_usuario.pack(side="left", padx=15)
-
 
 
 # Función para verificar las credenciales de inicio de sesión

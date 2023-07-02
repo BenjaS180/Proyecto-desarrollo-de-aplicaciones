@@ -47,7 +47,7 @@ class DAO():
 
             try:
                 cursor = self.conexion.cursor()
-                cursor.execute("select * from movimientodebodega ;")
+                cursor.execute("select * from movimiento_bodega ;")
                 resultados = cursor.fetchall()
                 return resultados
 
@@ -91,7 +91,7 @@ class DAO():
             try:
                 cursor = self.conexion.cursor()
                 cursor.execute(
-                    """INSERT INTO movimientodebodega(fecha, n_bodega_origen, n_bodega_destino, id_colaborador,id_producto) VALUES (%s, %s, %s, %s,%s)""",
+                    """INSERT INTO movimiento_bodega(fecha, n_bodega_origen, n_bodega_destino, ID_colaborador,ID_producto) VALUES (%s, %s, %s, %s,%s)""",
                     (fecha, n_bodega_origen, n_bodega_destino, id_colaborador, id_producto))
                 self.conexion.commit()
 
@@ -145,7 +145,7 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                query = "UPDATE bodega SET {} = %s WHERE id_bodega = %s".format(campo_actualizar)
+                query = "UPDATE bodega SET {} = %s WHERE ID_bodega = %s".format(campo_actualizar)
                 cursor.execute(query, (nuevo_valor, id_bodega))
                 self.conexion.commit()
                 print("Campo actualizado exitosamente en la tabla 'bodega'.")
@@ -156,7 +156,7 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                query = "UPDATE productos SET {} = %s WHERE id_producto = %s".format(campo_actualizar)
+                query = "UPDATE productos SET {} = %s WHERE ID_producto = %s".format(campo_actualizar)
                 cursor.execute(query, (nuevo_valor, id_producto))
                 self.conexion.commit()
                 print("Campo actualizado exitosamente en la tabla 'productos'.")
@@ -167,7 +167,7 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                cursor.execute('DELETE FROM bodega WHERE id_bodega = %s', (id_opcion_eliminar,))
+                cursor.execute('DELETE FROM bodega WHERE ID_bodega = %s', (id_opcion_eliminar,))
                 self.conexion.commit()
             except Error as ex:
                 print("Error al intentar la conexion: {}".format(ex))
@@ -176,7 +176,7 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                cursor.execute('DELETE FROM productos WHERE id_producto = %s', (id_opcion_eliminar,))
+                cursor.execute('DELETE FROM productos WHERE ID_producto = %s', (id_opcion_eliminar,))
                 self.conexion.commit()
             except Error as ex:
                 print("Error al intentar la conexion: {}".format(ex))
@@ -186,7 +186,7 @@ class DAO():
             try:
                 cursor = self.conexion.cursor()
                 cursor.execute(
-                    """SELECT accesos,id_colaborador FROM colaborador_credenciales WHERE usuario = %s AND contrasena = %s""",
+                    """SELECT accesos,ID_colaborador FROM colaborador_credenciales WHERE usuario = %s AND contrasena = %s""",
                     (usuario, contrasena)
                 )
 

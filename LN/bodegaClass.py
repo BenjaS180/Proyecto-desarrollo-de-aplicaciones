@@ -162,9 +162,8 @@ def convertir_a_bodegas(resultados):
 
 
 # aqui se hace un set para cada variable entregada en la funcion que se encuentra en la vista llamada
-# ingresar_datos_bodega, que inicializa todos los valores ingresados acontinuacion
+# ingresar_datos_bodega, que inicializa todos los valores ingresados a continuacion
 def guardar_bodega(id_bodega, nombre, direccion, jefe_asignado, capacidad, nivel_ocupacion, correo_bodega, numero_fijo):
-
     bodega = Bodega(id_bodega=id_bodega,
                     nombre=nombre,
                     direccion=direccion,
@@ -182,13 +181,10 @@ def guardar_bodega(id_bodega, nombre, direccion, jefe_asignado, capacidad, nivel
 
 
 def actualizar_bodega(id_bodega, campo_actualizar, nuevo_valor):
-
-    nuevos_datos = dao.actualizar_campo_bodega(id_bodega ,campo_actualizar, nuevo_valor)
+    nuevos_datos = dao.actualizar_campo_bodega(id_bodega, campo_actualizar, nuevo_valor)
     return nuevos_datos
 
 
 def eliminar_bodega(id_opcion_eliminar):
-
     opcion_eliminar = dao.Eliminar_bodega(id_opcion_eliminar)
     return opcion_eliminar
-

@@ -67,7 +67,7 @@ CREATE TABLE `bodega` (
   UNIQUE KEY `ID_bodega__UNIQUE` (`ID_bodega`),
   KEY `fk_colaborador_bodega` (`ID_colaborador`),
   CONSTRAINT `fk_colaborador_bodega` FOREIGN KEY (`ID_colaborador`) REFERENCES `colaborador` (`ID_colaborador`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,7 +76,7 @@ CREATE TABLE `bodega` (
 
 LOCK TABLES `bodega` WRITE;
 /*!40000 ALTER TABLE `bodega` DISABLE KEYS */;
-INSERT INTO `bodega` VALUES (1,'b02','prueba',1,100,50,'b02@bodega.cl',123213123),(2,'b02','prueba2',1,150,75,'b02@b02.cl',2147483647),(3,'b03','prueba3',3,200,125,'b03@bodega.cl',2323232);
+INSERT INTO `bodega` VALUES (1,'b01','prueba',1,100,50,'b02@bodega.cl',123213123),(2,'b02','prueba2',1,150,75,'b02@b02.cl',2147483647),(3,'b03','prueba3',3,200,125,'b03@bodega.cl',2323232),(4,'b04','prueba4',1,300,200,'b04@bodega.cl',23299232);
 /*!40000 ALTER TABLE `bodega` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +93,7 @@ CREATE TABLE `colaborador` (
   `ID_usuarios` int(11) NOT NULL,
   PRIMARY KEY (`ID_colaborador`),
   UNIQUE KEY `ID_colaborador__UNIQUE` (`ID_colaborador`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +102,7 @@ CREATE TABLE `colaborador` (
 
 LOCK TABLES `colaborador` WRITE;
 /*!40000 ALTER TABLE `colaborador` DISABLE KEYS */;
-INSERT INTO `colaborador` VALUES (1,'jefebodega',1),(2,'bodeguero',2),(3,'admin',3),(4,'admin',1),(5,'bodeguero',2),(6,'prueba3',3);
+INSERT INTO `colaborador` VALUES (1,'jefebodega',1),(2,'bodeguero',2),(3,'admin',3),(4,'admin',1),(5,'bodeguero',2),(6,'prueba3',3),(7,'prueba4',5);
 /*!40000 ALTER TABLE `colaborador` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +123,7 @@ CREATE TABLE `colaborador_credenciales` (
   UNIQUE KEY `ID_credencial__UNIQUE` (`ID_credencial`),
   KEY `fk_colaborador_col_cred` (`ID_colaborador`),
   CONSTRAINT `fk_colaborador_col_cred` FOREIGN KEY (`ID_colaborador`) REFERENCES `colaborador` (`ID_colaborador`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,7 +132,7 @@ CREATE TABLE `colaborador_credenciales` (
 
 LOCK TABLES `colaborador_credenciales` WRITE;
 /*!40000 ALTER TABLE `colaborador_credenciales` DISABLE KEYS */;
-INSERT INTO `colaborador_credenciales` VALUES (1,1,'jefebodega',12345,1),(2,2,'bodeguero',12345,2),(3,3,'admin',12345,3),(5,1,'benja1122',12345,3),(6,2,'prueba2',12345,3),(7,3,'prueba3',12345,1);
+INSERT INTO `colaborador_credenciales` VALUES (1,1,'jefebodega',12345,1),(2,2,'bodeguero',12345,2),(3,3,'admin',12345,3),(5,1,'benja1122',12345,3),(6,2,'prueba2',12345,3),(7,3,'prueba3',12345,1),(8,7,'prueba4',12345,1);
 /*!40000 ALTER TABLE `colaborador_credenciales` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,19 +169,14 @@ DROP TABLE IF EXISTS `movimiento_bodega`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `movimiento_bodega` (
-  `ID_movimiento` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_movimiento` int(10) NOT NULL AUTO_INCREMENT,
   `fecha` date NOT NULL,
-  `ID_bodega_origen` int(11) NOT NULL,
-  `ID_bodega_destino` int(11) NOT NULL,
-  `ID_colaborador` int(11) NOT NULL,
-  `ID_bodega` int(11) NOT NULL,
-  PRIMARY KEY (`ID_movimiento`),
-  UNIQUE KEY `ID_movimiento__UNIQUE` (`ID_movimiento`),
-  KEY `fk_colaborador_mov_bodega` (`ID_colaborador`),
-  KEY `fk_bodega_mov_bodega` (`ID_bodega`),
-  CONSTRAINT `fk_bodega_mov_bodega` FOREIGN KEY (`ID_bodega`) REFERENCES `bodega` (`ID_bodega`),
-  CONSTRAINT `fk_colaborador_mov_bodega` FOREIGN KEY (`ID_colaborador`) REFERENCES `colaborador` (`ID_colaborador`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `n_bodega_origen` varchar(10) NOT NULL,
+  `n_bodega_destino` varchar(10) NOT NULL,
+  `ID_colaborador` int(10) NOT NULL,
+  `ID_producto` int(10) NOT NULL,
+  PRIMARY KEY (`ID_movimiento`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,6 +185,7 @@ CREATE TABLE `movimiento_bodega` (
 
 LOCK TABLES `movimiento_bodega` WRITE;
 /*!40000 ALTER TABLE `movimiento_bodega` DISABLE KEYS */;
+INSERT INTO `movimiento_bodega` VALUES (1,'2023-07-02','c01','c02',2,4),(2,'2023-07-02','c02','c03',2,4);
 /*!40000 ALTER TABLE `movimiento_bodega` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +232,7 @@ CREATE TABLE `productos` (
   `tipo_producto` varchar(20) NOT NULL,
   PRIMARY KEY (`ID_producto`),
   UNIQUE KEY `ID_producto__UNIQUE` (`ID_producto`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,7 +241,7 @@ CREATE TABLE `productos` (
 
 LOCK TABLES `productos` WRITE;
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
-INSERT INTO `productos` VALUES (1,'2023-07-01 13:48:45.',50,'revistas'),(2,'2023-07-01 13:51:07.',30,'libros');
+INSERT INTO `productos` VALUES (1,'2023-07-01 13:48:45.',50,'revistas'),(2,'2023-07-01 13:51:07.',30,'libros'),(3,'2023-07-02 11:56:04.',40,'agendas');
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,7 +263,7 @@ CREATE TABLE `usuarios` (
   `numero_c` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID_usuarios`),
   UNIQUE KEY `ID_usuarios__UNIQUE` (`ID_usuarios`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +272,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'202425607','benja1','soto1','gonzalez1','benjamin@s.com','dsdas',22),(2,'202425608','benja2','soto2','gonzalez2','benjamin@s.com','asdas',2),(3,'202425609','benja3','soto3','gonzalez3','benjamin@s.com','asdas',222);
+INSERT INTO `usuarios` VALUES (1,'202425607','benja1','soto1','gonzalez1','benjamin@s.com','dsdas',22),(2,'202425608','benja2','soto2','gonzalez2','benjamin@s.com','asdas',2),(3,'202425609','benja3','soto3','gonzalez3','benjamin@s.com','asdas',222),(4,'2024256010','benja4','soto4','gonzalez4','benjamin@soto.com','sdsds',696969),(5,'202425606','prueba1','prueba1','prueba1','benjaminsoto661@hotm','sdasda',2322313);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -289,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-01 18:33:33
+-- Dump completed on 2023-07-02 13:51:44
